@@ -1,3 +1,5 @@
+var startCoordinates = [ [200, 130], [160, 260], [238, 260], [120, 185], [280, 185] ];
+
 window.onload = function() {
     var theCanvas = document.getElementById('canvas');
     if (theCanvas && theCanvas.getContext) {
@@ -15,27 +17,11 @@ window.onload = function() {
                 ctx.fill();
             }
             
-            x = 200;
-            y = 130;
-            drawCircle(x, y);
+            startCoordinates.forEach(function(xy, i, startCoordinates) {
+                drawCircle(xy[0], xy[1]);
+            })
             
-            x = 160;
-            y = 260;
-            drawCircle(x, y);
-            
-            x = 238;
-            y = 260;
-            drawCircle(x, y);
-            
-            x = 120;
-            y = 185;
-            drawCircle(x, y);
-            
-            x = 280;
-            y = 185;
-            drawCircle(x, y);
-            
-            // circle-border
+            // outer circle border
             radius = 100;
             x = theCanvas.width / 2;
             y = theCanvas.height / 2;
