@@ -1,0 +1,17 @@
+body {
+    background: #222222;
+}
+
+main {
+    text-align: center;
+}
+
+main h1 {
+    margin: 80px 0 80px 0;
+    font-family: sans-serif;
+    color: #c3a157;
+}
+
+#canvas {
+    border: solid 1px #3a3a3a;
+}
