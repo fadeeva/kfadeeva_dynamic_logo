@@ -1,4 +1,4 @@
-var startCoordinates = [ [200, 130], [160, 260], [238, 260], [120, 185], [280, 185] ];
+var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185]];
 
 window.onload = function() {
     var theCanvas = document.getElementById('canvas');
@@ -10,16 +10,36 @@ window.onload = function() {
             var x = 0;
             var y = 0;
             ctx.fillStyle = "#c3a157";
+            ctx.strokeStyle = "#c3a157";
+            ctx.lineWidth = 2;
             
-            function drawCircle (x, y) {
+            function drawCircle(x, y) {
                 ctx.beginPath();
                 ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
                 ctx.fill();
             }
             
-            startCoordinates.forEach(function(xy, i, startCoordinates) {
-                drawCircle(xy[0], xy[1]);
-            })
+            function drawLines(coordinates) {
+                ctx.beginPath();
+                coordinates.forEach(function(xy, i, coordinates) {
+                    if(i) {
+                        ctx.lineTo(xy[0], xy[1]);
+                    } else {
+                        ctx.moveTo(xy[0], xy[1]);
+                    }
+                })
+                ctx.closePath();
+                ctx.stroke();
+            }
+            
+            function drawPentagon(coordinates) {
+                coordinates.forEach(function(xy, i, coordinates) {
+                    drawCircle(xy[0], xy[1]);
+                })
+                drawLines(coordinates);
+            }
+            
+            drawPentagon(startCoordinates);
             
             // outer circle border
             radius = 100;
