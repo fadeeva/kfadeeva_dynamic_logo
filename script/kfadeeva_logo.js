@@ -56,8 +56,9 @@ function drawPentagon(coordinates) {
 }
 
 function blank() {
-    canvas_ctx.fillStyle = "#222222";
+    canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
+    
     
     // outer circle border
     canvas_ctx.lineWidth = 1;
@@ -66,8 +67,17 @@ function blank() {
     canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
     canvas_ctx.stroke();
     
+    // inner circle border
+    canvas_ctx.lineWidth = 1;
+    canvas_ctx.beginPath();
+    canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI, false);
+    canvas_ctx.stroke();
+      
     // outer rectangle border
     canvas_ctx.strokeRect(100, 100, 200, 200);
+    
+    // inner rectangle border
+    canvas_ctx.strokeRect(150, 150, 100, 100);
 }
 
 function animate() {
@@ -79,8 +89,7 @@ function animate() {
     movePentagon(startCoordinates[3], 3);
     movePentagon(startCoordinates[4], 4);
 
-    drawPentagon(startCoordinates);
-    
+    drawPentagon(startCoordinates);    
 }
 
 
@@ -89,7 +98,7 @@ for(var i = 0; i < 5; i++) {
     direction[i] = getDirection();
 }
 
-console.log(direction)
+//console.log(direction)
 
 function movePentagon(circle, num) {
     
