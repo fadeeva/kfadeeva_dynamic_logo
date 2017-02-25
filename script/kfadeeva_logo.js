@@ -92,14 +92,19 @@ function animate() {
     drawPentagon(startCoordinates);    
 }
 
+var direction = [];
+direction = rebuildDirection();
 
-var direction = []
-for(var i = 0; i < 5; i++) {
-    direction[i] = getDirection();
+function rebuildDirection() {
+    for(var i = 0; i < 5; i++) {
+        direction[i] = getDirection();
+    }
+    return direction;
 }
 
 //console.log(direction)
 
+var j = 0;
 function movePentagon(circle, num) {
     
     if(direction[num][0] && direction[num][1]) {       
@@ -137,6 +142,15 @@ function movePentagon(circle, num) {
             direction[num] = [true, false];
         }
     }
+    
+    
+    if(j >= 500) {
+        rebuildDirection();
+        j = 0;
+    } else {
+        j++;
+    }
+    
 }
 
 function getDirection() {
