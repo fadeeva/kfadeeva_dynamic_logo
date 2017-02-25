@@ -4,7 +4,7 @@ var canvas = null;
 var canvas_ctx = null;
 var bufferCanvas = null;
 var bufferCanvas_ctx = null;
-var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185]];
+var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185] ];
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -16,16 +16,10 @@ function init() {
     bufferCanvas_ctx.canvas.width = canvas_ctx.canvas.width;
     bufferCanvas_ctx.canvas.height = canvas_ctx.canvas.height;
     */
-    
-    /*
-    canvas_ctx.fillStyle = "#c3a157";
-    canvas_ctx.strokeStyle = "#c3a157";
-    canvas_ctx.lineWidth = 2;
-    */
+
     drawPentagon(startCoordinates);
     
-    setInterval(animate, 30);
-  
+    setInterval(animate, 30);  
 }
 
 function drawCircle(x, y) {
@@ -72,57 +66,68 @@ function blank() {
     canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
     canvas_ctx.stroke();
     
+    // outer rectangle border
     canvas_ctx.strokeRect(100, 100, 200, 200);
 }
 
-var direction = getDirection();
-var i = 0;
 function animate() {
     blank();
     
-    if(direction[0] && direction[1]) {       
-        startCoordinates[0][0]+=2, startCoordinates[0][1]+=2;       
-    } else if(direction[0] || direction[1]) {       
-        if(direction[0]) {         
-            startCoordinates[0][0]+=2, startCoordinates[0][1]-=2;
+    movePentagon(startCoordinates[0], 0);
+    movePentagon(startCoordinates[1], 1);
+    movePentagon(startCoordinates[2], 2);
+    movePentagon(startCoordinates[3], 3);
+    movePentagon(startCoordinates[4], 4);
+
+    drawPentagon(startCoordinates);
+    
+}
+
+
+var direction = []
+for(var i = 0; i < 5; i++) {
+    direction[i] = getDirection();
+}
+
+console.log(direction)
+
+function movePentagon(circle, num) {
+    
+    if(direction[num][0] && direction[num][1]) {       
+        circle[0]+=2, circle[1]+=2;       
+    } else if(direction[num][0] || direction[num][1]) {       
+        if(direction[num][0]) {         
+            circle[0]+=2, circle[1]-=2;
         } else {
-            startCoordinates[0][0]-=2, startCoordinates[0][1]+=2;
+            circle[0]-=2, circle[1]+=2;
         }    
-    } else if(!direction[0] && !direction[1]) {       
-        startCoordinates[0][0]-=2, startCoordinates[0][1]-=2;
+    } else if(!direction[num][0] && !direction[num][1]) {       
+        circle[0]-=2, circle[1]-=2;
     }
     
-    if(startCoordinates[0][0] > 300) {
-        if(startCoordinates[0][1] < 100) {
-            direction = [false, true];
-        } else if(startCoordinates[0][1] > 300) {
-            direction = [false, false];
+    if(circle[0] > 300) {
+        if(circle[1] < 100) {
+            direction[num] = [false, true];
+        } else if(circle[1] > 300) {
+            direction[num] = [false, false];
         } else {
-            direction[0] = false;
+            direction[num][0] = false;
         }
-    } else if(startCoordinates[0][0] < 100) {
-        if(startCoordinates[0][1] < 100) {
-            direction = [true, true];
-        } else if(startCoordinates[0][1] > 300) {
-            direction = [true, false];
+    } else if(circle[0] < 100) {
+        if(circle[1] < 100) {
+            direction[num] = [true, true];
+        } else if(circle[1] > 300) {
+            direction[num] = [true, false];
         } else {
-            direction[0] = true;
+            direction[num][0] = true;
         }
     } else {
-        if(startCoordinates[0][1] < 100) {
-            direction = [true, true];
-        } else if(startCoordinates[0][1] > 300) {
-            direction = [true, false];
+        if(circle[1] < 100) {
+            direction[num] = [true, true];
+        } else if(circle[1] > 300) {
+            direction[num] = [true, false];
         }
     }
-
-    i++;
-    if(i > 50) {
-        i = 0;
-        direction = getDirection();
-    }
-    
-    drawPentagon(startCoordinates);
 }
 
 function getDirection() {
