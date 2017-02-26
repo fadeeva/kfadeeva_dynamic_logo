@@ -94,13 +94,7 @@ function drawGuideLines() {
 
 function animate() {
     blank();
-    
-    movePentagon(startCoordinates[0], 0);
-    movePentagon(startCoordinates[1], 1);
-    movePentagon(startCoordinates[2], 2);
-    movePentagon(startCoordinates[3], 3);
-    movePentagon(startCoordinates[4], 4);
-
+    movePentagons(startCoordinates);
     drawPentagon(startCoordinates);    
 }
 
@@ -110,6 +104,12 @@ function rebuildDirection() {
     }
     return direction;
 }
+
+function movePentagons(startCoordinates) {
+    startCoordinates.forEach(function(circle, i, coordinates) {
+        movePentagon(circle, i);
+    })
+} 
 
 function movePentagon(circle, num) {
     if(direction[num][0] && direction[num][1]) {       
