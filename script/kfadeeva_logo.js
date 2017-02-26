@@ -5,6 +5,10 @@ var canvas_ctx = null;
 var bufferCanvas = null;
 var bufferCanvas_ctx = null;
 var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185] ];
+var left = false, right = true;
+var j = 0;
+var direction = [];
+direction = rebuildDirection();
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -18,7 +22,7 @@ function init() {
     */
 
     drawPentagon(startCoordinates);
-    
+    //drawGuideLines();
     setInterval(animate, 30);  
 }
 
@@ -28,11 +32,9 @@ function drawCircle(x, y) {
     canvas_ctx.beginPath();
     canvas_ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
     canvas_ctx.fill();
-    
 }
 
-function drawLines(coordinates) {
-    
+function drawLines(coordinates) {   
     canvas_ctx.strokeStyle = "#c3a157";
     canvas_ctx.lineWidth = 2;
     
@@ -58,26 +60,36 @@ function drawPentagon(coordinates) {
 function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
-    
-    
+       
+    drawGuideLines();
+}
+
+function drawGuideLines() {   
     // outer circle border
     canvas_ctx.lineWidth = 1;
     canvas_ctx.strokeStyle = "#3a3a3a";
     canvas_ctx.beginPath();
     canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
     canvas_ctx.stroke();
-    
-    // inner circle border
-    canvas_ctx.lineWidth = 1;
-    canvas_ctx.beginPath();
-    canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI, false);
-    canvas_ctx.stroke();
-      
+
     // outer rectangle border
     canvas_ctx.strokeRect(100, 100, 200, 200);
     
-    // inner rectangle border
+    /*/ inner rectangle border
     canvas_ctx.strokeRect(150, 150, 100, 100);
+    
+    // inner circle border
+    canvas_ctx.beginPath();
+    canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI, false);
+    canvas_ctx.stroke();
+    */
+    
+    // dividing line
+    canvas_ctx.strokeStyle = "#3a3a3a";
+    canvas_ctx.beginPath();
+    canvas_ctx.moveTo(100, canvas.height / 2);
+    canvas_ctx.lineTo(300, canvas.height / 2);
+    canvas_ctx.stroke();
 }
 
 function animate() {
@@ -92,9 +104,6 @@ function animate() {
     drawPentagon(startCoordinates);    
 }
 
-var direction = [];
-direction = rebuildDirection();
-
 function rebuildDirection() {
     for(var i = 0; i < 5; i++) {
         direction[i] = getDirection();
@@ -102,11 +111,7 @@ function rebuildDirection() {
     return direction;
 }
 
-//console.log(direction)
-
-var j = 0;
 function movePentagon(circle, num) {
-    
     if(direction[num][0] && direction[num][1]) {       
         circle[0]+=2, circle[1]+=2;       
     } else if(direction[num][0] || direction[num][1]) {       
@@ -121,28 +126,27 @@ function movePentagon(circle, num) {
     
     if(circle[0] > 300) {
         if(circle[1] < 100) {
-            direction[num] = [false, true];
+            direction[num] = [left, right];
         } else if(circle[1] > 300) {
-            direction[num] = [false, false];
+            direction[num] = [left, left];
         } else {
-            direction[num][0] = false;
+            direction[num][0] = left;
         }
     } else if(circle[0] < 100) {
         if(circle[1] < 100) {
-            direction[num] = [true, true];
+            direction[num] = [right, right];
         } else if(circle[1] > 300) {
-            direction[num] = [true, false];
+            direction[num] = [right, left];
         } else {
-            direction[num][0] = true;
+            direction[num][0] = right;
         }
     } else {
         if(circle[1] < 100) {
-            direction[num] = [true, true];
+            direction[num] = [right, right];
         } else if(circle[1] > 300) {
-            direction[num] = [true, false];
+            direction[num] = [right, left];
         }
     }
-    
     
     if(j >= 500) {
         rebuildDirection();
@@ -150,21 +154,20 @@ function movePentagon(circle, num) {
     } else {
         j++;
     }
-    
 }
 
 function getDirection() {
     var randomInt = Math.floor(Math.random() * 101);
     if(randomInt > 0 && randomInt < 26) {
-        return [true, true];
+        return [right, right];
     } else if(randomInt > 25 && randomInt < 51) {
-        return [true, false];
+        return [right, left];
     } else if(randomInt > 50 && randomInt < 76) {
-        return [false, true];
+        return [left, right];
     } else if(randomInt > 75 && randomInt < 101) {
-        return [false, false];
+        return [left, left];
     } else {
-        return [false, false];
+        return [left, left];
     }
 }
 
