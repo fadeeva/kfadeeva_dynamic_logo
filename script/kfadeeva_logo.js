@@ -4,6 +4,7 @@ var canvas = null;
 var canvas_ctx = null;
 var bufferCanvas = null;
 var bufferCanvas_ctx = null;
+var upF = null, bottomF = null;
 var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185] ];
 var left = false, right = true;
 var j = 0;
@@ -14,16 +15,22 @@ function init() {
     canvas = document.getElementById("canvas");
     canvas_ctx = canvas.getContext("2d");
     
+    upF = document.getElementById("up_f");
+    bottomF = document.getElementById("bottom_f");
+    
     /*
     bufferCanvas = document.createElement("canvas");
     bufferCanvas_ctx = bufferCanvas.getContext("2d");
     bufferCanvas_ctx.canvas.width = canvas_ctx.canvas.width;
     bufferCanvas_ctx.canvas.height = canvas_ctx.canvas.height;
     */
-
+    
+    //canvas_ctx.drawImage(bottomF, 110, 199);
     drawPentagon(startCoordinates);
+    //canvas_ctx.drawImage(upF, 192, 94);
+    
     //drawGuideLines();
-    setInterval(animate, 30);  
+    setInterval(animate, 30);    
 }
 
 function drawCircle(x, y) {
@@ -60,8 +67,8 @@ function drawPentagon(coordinates) {
 function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
-       
-    drawGuideLines();
+
+    drawGuideLines();    
 }
 
 function drawGuideLines() {   
@@ -95,7 +102,9 @@ function drawGuideLines() {
 function animate() {
     blank();
     movePentagon(startCoordinates);
-    drawPentagon(startCoordinates);    
+    canvas_ctx.drawImage(bottomF, 110, 199);
+    drawPentagon(startCoordinates);
+    canvas_ctx.drawImage(upF, 192, 94);
 }
 
 function rebuildDirection() {
