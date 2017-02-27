@@ -29,7 +29,7 @@ function init() {
     drawPentagon(startCoordinates);
     //canvas_ctx.drawImage(upF, 192, 94);
     
-    //drawGuideLines();
+    //drawGuideLines(showAll = true);
     setInterval(animate, 30);    
 }
 
@@ -68,35 +68,39 @@ function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
 
-    drawGuideLines();    
+    drawGuideLines(showAll = true);    
 }
 
-function drawGuideLines() {   
-    // outer circle border
+function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false, dividingLine = false) {
     canvas_ctx.lineWidth = 1;
     canvas_ctx.strokeStyle = "#3a3a3a";
-    canvas_ctx.beginPath();
-    canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
-    canvas_ctx.stroke();
-
+    
+    if(showAll) {
+        outerCircleBrd = true;
+        outerRectBrd = true;
+        dividingLine = true;
+    }
+    
+    // outer circle border
+    if(outerCircleBrd) {   
+        canvas_ctx.beginPath();
+        canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
+        canvas_ctx.stroke();
+    }
+        
     // outer rectangle border
-    canvas_ctx.strokeRect(100, 100, 200, 200);
-    
-    /*/ inner rectangle border
-    canvas_ctx.strokeRect(150, 150, 100, 100);
-    
-    // inner circle border
-    canvas_ctx.beginPath();
-    canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI, false);
-    canvas_ctx.stroke();
-    */
-    
+    if(outerRectBrd) {
+        canvas_ctx.strokeRect(100, 100, 200, 200);
+    }
+       
     // dividing line
-    canvas_ctx.strokeStyle = "#3a3a3a";
-    canvas_ctx.beginPath();
-    canvas_ctx.moveTo(100, canvas.height / 2);
-    canvas_ctx.lineTo(300, canvas.height / 2);
-    canvas_ctx.stroke();
+    if(dividingLine) {
+        canvas_ctx.strokeStyle = "#3a3a3a";
+        canvas_ctx.beginPath();
+        canvas_ctx.moveTo(100, canvas.height / 2);
+        canvas_ctx.lineTo(300, canvas.height / 2);
+        canvas_ctx.stroke();
+    }  
 }
 
 function animate() {
