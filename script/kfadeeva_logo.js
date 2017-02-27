@@ -5,7 +5,7 @@ var canvas_ctx = null;
 var bufferCanvas = null;
 var bufferCanvas_ctx = null;
 var upF = null, bottomF = null;
-var startCoordinates = [ [200, 130], [280, 185], [238, 260], [160, 260], [120, 185] ];
+var startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
 var left = false, right = true;
 var j = 0;
 var direction = [];
@@ -68,17 +68,18 @@ function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
 
-    drawGuideLines(showAll = true);    
+    drawGuideLines(showAll = false);    
 }
 
-function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false, dividingLine = false) {
+function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false,                   horizontalLine = false, verticalLine = false) {
     canvas_ctx.lineWidth = 1;
     canvas_ctx.strokeStyle = "#3a3a3a";
     
     if(showAll) {
         outerCircleBrd = true;
         outerRectBrd = true;
-        dividingLine = true;
+        horizontalLine = true;
+        verticalLine = true;
     }
     
     // outer circle border
@@ -92,15 +93,24 @@ function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = 
     if(outerRectBrd) {
         canvas_ctx.strokeRect(100, 100, 200, 200);
     }
-       
-    // dividing line
-    if(dividingLine) {
+     
+    // dividing horizontal line
+    if(horizontalLine) {        
         canvas_ctx.strokeStyle = "#3a3a3a";
         canvas_ctx.beginPath();
         canvas_ctx.moveTo(100, canvas.height / 2);
         canvas_ctx.lineTo(300, canvas.height / 2);
         canvas_ctx.stroke();
-    }  
+    }
+    
+    // dividing vertical line
+    if(verticalLine) {
+        canvas_ctx.strokeStyle = "#3a3a3a";
+        canvas_ctx.beginPath();
+        canvas_ctx.moveTo(canvas.width / 2, 100);
+        canvas_ctx.lineTo(canvas.width / 2, 300);
+        canvas_ctx.stroke();
+    }
 }
 
 function animate() {
@@ -124,6 +134,54 @@ function movePentagon(startCoordinates) {
     })
 } 
 
+var quater = {};
+var rect = {
+    quater_1 : {
+        x_min : 100,
+        x_max : 200,
+        y_min : 100,
+        y_max : 180
+    },
+    up_half : {
+        x_min : 100,
+        x_max : 300,
+        y_min : 100,
+        y_max : 180
+    },
+    
+    bottom_half : {
+        x_min : 100,
+        x_max : 300,
+        y_min : 220,
+        y_max : 300
+    },
+    
+    quater_2 : {
+        x_min : 200,
+        x_max : 300,
+        y_min : 100,
+        y_max : 180
+    },
+    quater_3 : {
+        x_min : 100,
+        x_max : 200,
+        y_min : 220,
+        y_max : 300
+    },
+    quater_4 : {
+        x_min : 200,
+        x_max : 300,
+        y_min : 220,
+        y_max : 300
+    },
+    full : {
+        x_min : 100,
+        x_max : 300,
+        y_min : 100,
+        y_max : 300
+    } 
+}
+
 function moveVertex(circle, num) {
     if(direction[num][0] && direction[num][1]) {       
         circle[0]+=2, circle[1]+=2;       
@@ -137,6 +195,52 @@ function moveVertex(circle, num) {
         circle[0]-=2, circle[1]-=2;
     }
     
+    switch(num) {
+        case 0 :
+            quater = rect.quater_1;
+            break;
+        case 1 :
+            quater = rect.up_half;
+            break;
+        case 2 :
+            quater = rect.quater_2;
+            break;
+        case 3 :
+            quater = rect.quater_4;
+            break;
+        case 4 :
+            quater = rect.quater_3;
+            break;
+        default:
+            quater = rect.full;
+            break;
+    }
+    
+    if(circle[0] > quater.x_max) {
+        if(circle[1] < quater.y_min) {
+            direction[num] = [left, right];
+        } else if(circle[1] > quater.y_max) {
+            direction[num] = [left, left];
+        } else {
+            direction[num][0] = left;
+        }
+    } else if(circle[0] < quater.x_min) {
+        if(circle[1] < quater.y_min) {
+            direction[num] = [right, right];
+        } else if(circle[1] > quater.y_max) {
+            direction[num] = [right, left];
+        } else {
+            direction[num][0] = right;
+        }
+    } else {
+        if(circle[1] < quater.y_min) {
+            direction[num] = [right, right];
+        } else if(circle[1] > quater.y_max) {
+            direction[num] = [right, left];
+        }
+    }
+    
+    /*
     if(circle[0] > 300) {
         if(circle[1] < 100) {
             direction[num] = [left, right];
@@ -160,6 +264,7 @@ function moveVertex(circle, num) {
             direction[num] = [right, left];
         }
     }
+    */
     
     if(j >= 500) {
         rebuildDirection();
