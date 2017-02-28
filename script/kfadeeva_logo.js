@@ -68,7 +68,7 @@ function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
 
-    drawGuideLines(showAll = false);    
+    drawGuideLines(showAll = true);    
 }
 
 function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false,                   horizontalLine = false, verticalLine = false) {
@@ -148,29 +148,27 @@ var rect = {
         y_min : 100,
         y_max : 180
     },
-    
     bottom_half : {
         x_min : 100,
         x_max : 300,
         y_min : 220,
         y_max : 300
     },
-    
     quater_2 : {
         x_min : 200,
         x_max : 300,
         y_min : 100,
         y_max : 180
-    },
+    },  
     quater_3 : {
-        x_min : 100,
-        x_max : 200,
+        x_min : 240,
+        x_max : 300,
         y_min : 220,
         y_max : 300
     },
     quater_4 : {
-        x_min : 200,
-        x_max : 300,
+        x_min : 100,
+        x_max : 200,
         y_min : 220,
         y_max : 300
     },
@@ -206,10 +204,10 @@ function moveVertex(circle, num) {
             quater = rect.quater_2;
             break;
         case 3 :
-            quater = rect.quater_4;
+            quater = rect.quater_3;
             break;
         case 4 :
-            quater = rect.quater_3;
+            quater = rect.quater_4;
             break;
         default:
             quater = rect.full;
@@ -239,32 +237,6 @@ function moveVertex(circle, num) {
             direction[num] = [right, left];
         }
     }
-    
-    /*
-    if(circle[0] > 300) {
-        if(circle[1] < 100) {
-            direction[num] = [left, right];
-        } else if(circle[1] > 300) {
-            direction[num] = [left, left];
-        } else {
-            direction[num][0] = left;
-        }
-    } else if(circle[0] < 100) {
-        if(circle[1] < 100) {
-            direction[num] = [right, right];
-        } else if(circle[1] > 300) {
-            direction[num] = [right, left];
-        } else {
-            direction[num][0] = right;
-        }
-    } else {
-        if(circle[1] < 100) {
-            direction[num] = [right, right];
-        } else if(circle[1] > 300) {
-            direction[num] = [right, left];
-        }
-    }
-    */
     
     if(j >= 500) {
         rebuildDirection();
