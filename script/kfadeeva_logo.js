@@ -7,8 +7,21 @@ var bufferCanvas_ctx = null;
 var upF = null, bottomF = null;
 var startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
 var left = false, right = true;
+var radius = 9;
 var j = 0;
 var direction = [];
+var quater = {};
+var rect = {
+    quater_1 : { x_min : 100, x_max : 200, y_min : 100, y_max : 180 }, 
+    quater_2 : { x_min : 200, x_max : 300, y_min : 100, y_max : 180 },  
+    quater_3 : { x_min : 240, x_max : 300, y_min : 220, y_max : 300 },
+    quater_4 : { x_min : 100, x_max : 200, y_min : 220, y_max : 300 },
+    
+    up_half     : { x_min : 100, x_max : 300, y_min : 100, y_max : 180 },
+    bottom_half : { x_min : 100, x_max : 300, y_min : 220, y_max : 300 },
+    full        : { x_min : 100, x_max : 300, y_min : 100, y_max : 300 } 
+}
+
 direction = rebuildDirection();
 
 function init() {
@@ -17,7 +30,7 @@ function init() {
     
     upF = document.getElementById("up_f");
     bottomF = document.getElementById("bottom_f");
-    
+
     /*
     bufferCanvas = document.createElement("canvas");
     bufferCanvas_ctx = bufferCanvas.getContext("2d");
@@ -29,12 +42,11 @@ function init() {
     drawPentagon(startCoordinates);
     //canvas_ctx.drawImage(upF, 192, 94);
     
-    //drawGuideLines(showAll = true);
+    //drawGuideLines(showAll = false);
     setInterval(animate, 30);    
 }
 
 function drawCircle(x, y) {
-    var radius = 9;
     canvas_ctx.fillStyle = "#c3a157";
     canvas_ctx.beginPath();
     canvas_ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
@@ -68,7 +80,7 @@ function blank() {
     canvas_ctx.fillStyle = "#222";
     canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
 
-    drawGuideLines(showAll = true);    
+    drawGuideLines(showAll = false);    
 }
 
 function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false,                   horizontalLine = false, verticalLine = false) {
@@ -122,7 +134,7 @@ function animate() {
 }
 
 function rebuildDirection() {
-    for(var i = 0; i < 5; i++) {
+    for(let i = 0; i < 5; i++) {
         direction[i] = getDirection();
     }
     return direction;
@@ -133,52 +145,6 @@ function movePentagon(startCoordinates) {
         moveVertex(circle, i);
     })
 } 
-
-var quater = {};
-var rect = {
-    quater_1 : {
-        x_min : 100,
-        x_max : 200,
-        y_min : 100,
-        y_max : 180
-    },
-    up_half : {
-        x_min : 100,
-        x_max : 300,
-        y_min : 100,
-        y_max : 180
-    },
-    bottom_half : {
-        x_min : 100,
-        x_max : 300,
-        y_min : 220,
-        y_max : 300
-    },
-    quater_2 : {
-        x_min : 200,
-        x_max : 300,
-        y_min : 100,
-        y_max : 180
-    },  
-    quater_3 : {
-        x_min : 240,
-        x_max : 300,
-        y_min : 220,
-        y_max : 300
-    },
-    quater_4 : {
-        x_min : 100,
-        x_max : 200,
-        y_min : 220,
-        y_max : 300
-    },
-    full : {
-        x_min : 100,
-        x_max : 300,
-        y_min : 100,
-        y_max : 300
-    } 
-}
 
 function moveVertex(circle, num) {
     if(direction[num][0] && direction[num][1]) {       
@@ -260,5 +226,3 @@ function getDirection() {
         return [left, left];
     }
 }
-
-    
