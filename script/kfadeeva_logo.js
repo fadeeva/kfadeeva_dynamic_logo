@@ -1,17 +1,17 @@
 window.onload = function() { init(); }
 
-var canvas = null;
-var canvas_ctx = null;
-var bufferCanvas = null;
-var bufferCanvas_ctx = null;
-var upF = null, bottomF = null;
-var startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
-var left = false, right = true;
-var radius = 9;
-var j = 0;
-var direction = [];
-var quater = {};
-var rect = {
+let canvas = null;
+let canvas_ctx = null;
+let bufferCanvas = null;
+let bufferCanvas_ctx = null;
+let upF = null, bottomF = null;
+const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
+const left = false, right = true;
+const radius = 9;
+let j = 0;
+let direction = [];
+let quater = {};
+let rect = {
     quater_1 : { x_min : 100, x_max : 200, y_min : 100, y_max : 180 }, 
     quater_2 : { x_min : 200, x_max : 300, y_min : 100, y_max : 180 },  
     quater_3 : { x_min : 240, x_max : 300, y_min : 220, y_max : 300 },
