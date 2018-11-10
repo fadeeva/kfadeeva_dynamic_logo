@@ -1,4 +1,16 @@
-window.onload = function() { init(); }
+let kfadeevaLogoSettings = {
+    width: 400,
+    height: 400
+}
+
+window.onload = function() { kfadeevaLogo(kfadeevaLogoSettings); }
+
+function kfadeevaLogo(stn) {
+    let logoCnt = document.getElementById("fadeeva_logo_container");    
+    logoCnt.innerHTML = "<canvas id='fadeeva_logo_canvas' width="+ stn.width +" height="+ stn.height +"></canvas>"
+    
+    init();
+}
 
 let canvas = null;
 let canvas_ctx = null;
@@ -25,7 +37,7 @@ let rect = {
 direction = rebuildDirection();
 
 function init() {
-    canvas = document.getElementById("canvas");
+    canvas = document.getElementById("fadeeva_logo_canvas");
     canvas_ctx = canvas.getContext("2d");
     
     upF = document.getElementById("up_f");
