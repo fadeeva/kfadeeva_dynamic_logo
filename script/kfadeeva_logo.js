@@ -129,7 +129,7 @@ function animate() {
     blank();
     movePentagon(startCoordinates);
     canvas_ctx.drawImage(bottomF, 110, 199);
-    drawPentagon(startCoordinates);
+    drawPentagon(startCoordinates);  
     canvas_ctx.drawImage(upF, 192, 94);
 }
 
