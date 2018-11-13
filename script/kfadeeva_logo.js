@@ -1,6 +1,9 @@
 let kfadeevaLogoSettings = {
     width: 400,
-    height: 400
+    height: 400,
+    circles: { radius : 9, color: "#c3a157" },
+    pentagonColor: "#c3a157",
+    letterColor: ""
 }
 
 window.onload = function() { kfadeevaLogo(kfadeevaLogoSettings); }
@@ -19,7 +22,6 @@ let bufferCanvas_ctx = null;
 let upF = null, bottomF = null;
 const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
 const left = false, right = true;
-const radius = 9;
 let j = 0;
 let direction = [];
 let quater = {};
@@ -59,14 +61,14 @@ function init() {
 }
 
 function drawCircle(x, y) {
-    canvas_ctx.fillStyle = "#c3a157";
+    canvas_ctx.fillStyle = kfadeevaLogoSettings.circles.color;
     canvas_ctx.beginPath();
-    canvas_ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+    canvas_ctx.arc(x, y, kfadeevaLogoSettings.circles.radius, 0, 2 * Math.PI, false);
     canvas_ctx.fill();
 }
 
 function drawLines(coordinates) {   
-    canvas_ctx.strokeStyle = "#c3a157";
+    canvas_ctx.strokeStyle = kfadeevaLogoSettings.pentagonColor;
     canvas_ctx.lineWidth = 2;
     
     canvas_ctx.beginPath();
