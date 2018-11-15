@@ -1,8 +1,7 @@
 let kfadeevaLogoSettings = {
-    width: 400,
-    height: 400,
+    size: 240, // высота f 234px, поэтому пока подгоняю под 240px
     circles: { radius : 9, color: "#c3a157" },
-    pentagonColor: "#c3a157",
+    pentagon: { lineWidth: 2, color: "#c3a157"},
     letterColor: ""
 }
 
@@ -10,7 +9,7 @@ window.onload = function() { kfadeevaLogo(kfadeevaLogoSettings); }
 
 function kfadeevaLogo(stn) {
     let logoCnt = document.getElementById("fadeeva_logo_container");    
-    logoCnt.innerHTML = "<canvas id='fadeeva_logo_canvas' width="+ stn.width +" height="+ stn.height +"></canvas>"
+    logoCnt.innerHTML = "<canvas id='fadeeva_logo_canvas' width="+ stn.size +" height="+ stn.size +"></canvas>"
     
     init();
 }
@@ -20,6 +19,7 @@ let canvas_ctx = null;
 let bufferCanvas = null;
 let bufferCanvas_ctx = null;
 let upF = null, bottomF = null;
+//const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
 const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
 const left = false, right = true;
 let j = 0;
@@ -56,8 +56,8 @@ function init() {
     drawPentagon(startCoordinates);
     //canvas_ctx.drawImage(upF, 192, 94);
     
-    //drawGuideLines(showAll = false);
-    setInterval(animate, 30);    
+    drawGuideLines(showAll = true);
+    //setInterval(animate, 30);    
 }
 
 function drawCircle(x, y) {
@@ -68,8 +68,8 @@ function drawCircle(x, y) {
 }
 
 function drawLines(coordinates) {   
-    canvas_ctx.strokeStyle = kfadeevaLogoSettings.pentagonColor;
-    canvas_ctx.lineWidth = 2;
+    canvas_ctx.strokeStyle = kfadeevaLogoSettings.pentagon.color;
+    canvas_ctx.lineWidth = kfadeevaLogoSettings.pentagon.lineWidth;
     
     canvas_ctx.beginPath();
     coordinates.forEach(function(xy, i, coordinates) {
@@ -92,51 +92,9 @@ function drawPentagon(coordinates) {
 
 function blank() {
     canvas_ctx.fillStyle = "#222";
-    canvas_ctx.fillRect(0, 0, canvas_ctx.canvas.width, canvas_ctx.canvas.height);
+    canvas_ctx.fillRect(0, 0, kfadeevaLogoSettings.size, kfadeevaLogoSettings.size);
 
-    drawGuideLines(showAll = false);    
-}
-
-function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false,                   horizontalLine = false, verticalLine = false) {
-    canvas_ctx.lineWidth = 1;
-    canvas_ctx.strokeStyle = "#3a3a3a";
-    
-    if(showAll) {
-        outerCircleBrd = true;
-        outerRectBrd = true;
-        horizontalLine = true;
-        verticalLine = true;
-    }
-    
-    // outer circle border
-    if(outerCircleBrd) {   
-        canvas_ctx.beginPath();
-        canvas_ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, 2 * Math.PI, false);
-        canvas_ctx.stroke();
-    }
-        
-    // outer rectangle border
-    if(outerRectBrd) {
-        canvas_ctx.strokeRect(100, 100, 200, 200);
-    }
-     
-    // dividing horizontal line
-    if(horizontalLine) {        
-        canvas_ctx.strokeStyle = "#3a3a3a";
-        canvas_ctx.beginPath();
-        canvas_ctx.moveTo(100, canvas.height / 2);
-        canvas_ctx.lineTo(300, canvas.height / 2);
-        canvas_ctx.stroke();
-    }
-    
-    // dividing vertical line
-    if(verticalLine) {
-        canvas_ctx.strokeStyle = "#3a3a3a";
-        canvas_ctx.beginPath();
-        canvas_ctx.moveTo(canvas.width / 2, 100);
-        canvas_ctx.lineTo(canvas.width / 2, 300);
-        canvas_ctx.stroke();
-    }
+    drawGuideLines(showAll = true);    
 }
 
 function animate() {
@@ -238,5 +196,52 @@ function getDirection() {
         return [left, left];
     } else {
         return [left, left];
+    }
+}
+
+
+/** *********************************
+ *   Функция, которая чертит сетку
+ *   и окружность для пентагона 
+ * ********************************* */
+function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = false,                   horizontalLine = false, verticalLine = false) {
+    canvas_ctx.lineWidth = 1;
+    canvas_ctx.strokeStyle = "#3a3a3a";
+    
+    if(showAll) {
+        outerCircleBrd = true;
+        outerRectBrd = true;
+        horizontalLine = true;
+        verticalLine = true;
+    }
+    
+    // outer circle border
+    if(outerCircleBrd) {   
+        canvas_ctx.beginPath();
+        canvas_ctx.arc(kfadeevaLogoSettings.size / 2, kfadeevaLogoSettings.size / 2, 100, 0, 2 * Math.PI, false);
+        canvas_ctx.stroke();
+    }
+        
+    // outer rectangle border
+    if(outerRectBrd) {
+        canvas_ctx.strokeRect(10, 10, kfadeevaLogoSettings.size - 20, kfadeevaLogoSettings.size - 20);
+    }
+     
+    // dividing horizontal line
+    if(horizontalLine) {        
+        canvas_ctx.strokeStyle = "#3a3a3a";
+        canvas_ctx.beginPath();
+        canvas_ctx.moveTo(0, kfadeevaLogoSettings.size / 2);
+        canvas_ctx.lineTo(kfadeevaLogoSettings.size, kfadeevaLogoSettings.size / 2);
+        canvas_ctx.stroke();
+    }
+    
+    // dividing vertical line
+    if(verticalLine) {
+        canvas_ctx.strokeStyle = "#3a3a3a";
+        canvas_ctx.beginPath();
+        canvas_ctx.moveTo(kfadeevaLogoSettings.size / 2, 0);
+        canvas_ctx.lineTo(kfadeevaLogoSettings.size / 2, kfadeevaLogoSettings.size);
+        canvas_ctx.stroke();
     }
 }
