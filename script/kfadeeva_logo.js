@@ -1,8 +1,8 @@
 let kfadeevaLogoSettings = {
-    size: 240, // высота f 234px, поэтому пока подгоняю под 240px
-    circles: { radius : 9, color: "#c3a157" },
-    pentagon: { lineWidth: 2, color: "#c3a157"},
-    letterColor: ""
+    size     : 240, // высота f 234px, поэтому пока подгоняю под 240px
+    circles  : { radius : 9, color: "#c3a157" },
+    pentagon : { lineWidth: 2, color: "#c3a157"},
+    letter   : { color: "#161616" }
 }
 
 window.onload = function() { kfadeevaLogo(kfadeevaLogoSettings); }
@@ -20,7 +20,7 @@ let bufferCanvas = null;
 let bufferCanvas_ctx = null;
 let upF = null, bottomF = null;
 //const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
-const startCoordinates = [ [120, 185], [200, 130], [280, 185], [238, 260], [160, 260] ];
+const startCoordinates = [ [22, 100], [120, 20], [218, 100], [180, 200], [60, 200] ];
 const left = false, right = true;
 let j = 0;
 let direction = [];
@@ -31,9 +31,13 @@ let rect = {
     quater_3 : { x_min : 240, x_max : 300, y_min : 220, y_max : 300 },
     quater_4 : { x_min : 100, x_max : 200, y_min : 220, y_max : 300 },
     
-    up_half     : { x_min : 100, x_max : 300, y_min : 100, y_max : 180 },
-    bottom_half : { x_min : 100, x_max : 300, y_min : 220, y_max : 300 },
-    full        : { x_min : 100, x_max : 300, y_min : 100, y_max : 300 } 
+    // up_half     : { x_min : 100, x_max : 300, y_min : 100, y_max : 180 },
+    // bottom_half : { x_min : 100, x_max : 300, y_min : 220, y_max : 300 },
+    // full        : { x_min : 100, x_max : 300, y_min : 100, y_max : 300 } 
+    
+    up_half     : { x_min : 10, x_max : 230, y_min : 10, y_max : 230 * 3 / 5 },
+    bottom_half : { x_min : 10, x_max : 230, y_min : 230 * 11 / 15, y_max : 230 },
+    full        : { x_min : 10, x_max : 230, y_min : 10, y_max : 230 }
 }
 
 direction = rebuildDirection();
@@ -52,9 +56,9 @@ function init() {
     bufferCanvas_ctx.canvas.height = canvas_ctx.canvas.height;
     */
     
-    //canvas_ctx.drawImage(bottomF, 110, 199);
+    canvas_ctx.drawImage(bottomF, 38, 108);
     drawPentagon(startCoordinates);
-    //canvas_ctx.drawImage(upF, 192, 94);
+    canvas_ctx.drawImage(upF, 120, 3);
     
     drawGuideLines(showAll = true);
     //setInterval(animate, 30);    
@@ -208,6 +212,9 @@ function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = 
     canvas_ctx.lineWidth = 1;
     canvas_ctx.strokeStyle = "#3a3a3a";
     
+    let radius = (kfadeevaLogoSettings.size - 20) / 2;
+    let halfSize = kfadeevaLogoSettings.size / 2;
+    
     if(showAll) {
         outerCircleBrd = true;
         outerRectBrd = true;
@@ -218,7 +225,7 @@ function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = 
     // outer circle border
     if(outerCircleBrd) {   
         canvas_ctx.beginPath();
-        canvas_ctx.arc(kfadeevaLogoSettings.size / 2, kfadeevaLogoSettings.size / 2, 100, 0, 2 * Math.PI, false);
+        canvas_ctx.arc(halfSize, halfSize, radius, 0, 2 * Math.PI, false);
         canvas_ctx.stroke();
     }
         
@@ -231,8 +238,8 @@ function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = 
     if(horizontalLine) {        
         canvas_ctx.strokeStyle = "#3a3a3a";
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(0, kfadeevaLogoSettings.size / 2);
-        canvas_ctx.lineTo(kfadeevaLogoSettings.size, kfadeevaLogoSettings.size / 2);
+        canvas_ctx.moveTo(0, halfSize);
+        canvas_ctx.lineTo(kfadeevaLogoSettings.size, halfSize);
         canvas_ctx.stroke();
     }
     
@@ -240,8 +247,8 @@ function drawGuideLines(showAll = false, outerCircleBrd = false, outerRectBrd = 
     if(verticalLine) {
         canvas_ctx.strokeStyle = "#3a3a3a";
         canvas_ctx.beginPath();
-        canvas_ctx.moveTo(kfadeevaLogoSettings.size / 2, 0);
-        canvas_ctx.lineTo(kfadeevaLogoSettings.size / 2, kfadeevaLogoSettings.size);
+        canvas_ctx.moveTo(halfSize, 0);
+        canvas_ctx.lineTo(halfSize, kfadeevaLogoSettings.size);
         canvas_ctx.stroke();
     }
 }
